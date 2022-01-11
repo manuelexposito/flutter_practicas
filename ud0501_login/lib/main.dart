@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,19 +33,23 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        // crossAxisAlignment: CrossAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Column(
             children: [
               Image.asset(
                 'assets/images/path_logo.png',
                 fit: BoxFit.cover,
-                width: 200,
+                width: 180,
               ),
-              const Text(
-                'Beautiful, Private Sharing',
-                style: TextStyle(color: Colors.white),
+              Container(
+                margin: EdgeInsets.only(bottom: 130),
+                child: Text(
+                  'Beautiful, Private Sharing',
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(0.5), fontSize: 15),
+                ),
               )
             ],
           ),
@@ -73,16 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: const Center(
                       child: Text('Sign Up',
                           style: TextStyle(
-                              color: Color(0xFFE62F16), fontSize: 20, fontWeight: FontWeight.bold)),
+                              color: Color(0xFFE62F16),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
                     )),
               ),
-              Text(
-                'Already have a Path account?',
-                style: TextStyle(color: Colors.white.withOpacity(0.5)),
+              Container(
+                margin: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Already have a Path account?',
+                  style: TextStyle(color: Colors.white.withOpacity(0.5)),
+                ),
               ),
               SizedBox(
                 width: 200.0,
                 child: Container(
+                  margin: EdgeInsets.only(bottom: 20),
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -96,22 +105,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              Container(
                 width: 200.0,
+                margin: EdgeInsets.only(bottom: 40),
                 child: RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
-                  text: "By using Path, you agree to Path's ",
-                  style: TextStyle(color: Colors.white.withOpacity(0.5)),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'Terms of Use',
-                        style: TextStyle(decoration: TextDecoration.underline, color: Colors.white)),
-                    TextSpan(text: ' and '),
-                    TextSpan(
-                        text: 'Privacy Policy',
-                        style: TextStyle(decoration: TextDecoration.underline, color: Colors.white))
-                  ],
-                )),
+                      text: "By using Path, you agree to Path's ",
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.5), fontSize: 12),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: 'Terms of Use',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white)),
+                        TextSpan(text: ' and '),
+                        TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white))
+                      ],
+                    )),
               )
             ],
           )
