@@ -46,9 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //List<Planet> planetList =PlanetResponse.fromJson(jsonDecode(jsonPlanets)).results;
   late Future<List<Person>> pplList;
   late Future<List<Planet>> planetList;
-
   ListSelection selectedList = ListSelection.characters;
-
   @override
   void initState() {
     pplList = fetchPeople();
@@ -58,55 +56,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.amber,
-              ),
-              child: Text('¡Guía completa de Star wars!'),
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: const TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.people)),
+                Tab(icon: Icon(Icons.circle))
+              ],
             ),
-            ListTile(
-              title: const Text('Personajes'),
-              onTap: () {
-                setState(() {
-                  selectedList = ListSelection.characters;
-                });
-
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Planetas'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-                setState(() {
-                  selectedList = ListSelection.planets;
-                });
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Text('Star Wars'),
-      ),
-      body: Stack(
-        children: [
-          Image.network(
-            'https://sm.mashable.com/mashable_in/photo/default/nasa-galaxy_9pu4.jpg',
-            fit: BoxFit.fitHeight,
-            height: MediaQuery.of(context).size.height,
+            title: const Text('Star Wars'),
           ),
-          Center(child: _showList())
-        ],
+          body: Stack(
+            children: [
+              Image.network(
+                'https://sm.mashable.com/mashable_in/photo/default/nasa-galaxy_9pu4.jpg',
+                fit: BoxFit.fitHeight,
+                height: MediaQuery.of(context).size.height,
+              ),
+              const TabBarView(
+                children: [ 
+                  Text('People', style: TextStyle(color: Colors.white)),
+                  Text('Planetas', style: TextStyle(color: Colors.white))
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -221,8 +199,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _showList() {
-    switch (selectedList) {
+  Widget _showList(ListSelection option) {
+    switch (option) {
       case ListSelection.characters:
         return FutureBuilder<List<Person>>(
             future: pplList,
@@ -248,6 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 }
+
 /*
  Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
