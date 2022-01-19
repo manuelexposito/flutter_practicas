@@ -224,65 +224,39 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _showList() {
     switch (selectedList) {
       case ListSelection.characters:
-        return FutureBuilder<List<Person>>(
-            future: pplList,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _peopleList(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            });
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _getTitle('Personajes'),
+            FutureBuilder<List<Person>>(
+                future: pplList,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _peopleList(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                })
+          ],
+        );
       case ListSelection.planets:
-        return FutureBuilder<List<Planet>>(
-            future: planetList,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _planetList(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            });
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _getTitle('Planetas'),
+            FutureBuilder<List<Planet>>(
+                future: planetList,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _planetList(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                })
+          ],
+        );
     }
   }
 }
-/*
- Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: [
-                  _getTitle('Personajes'),
-                  FutureBuilder<List<Person>>(
-                      future: pplList,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return _peopleList(snapshot.data!);
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        return const CircularProgressIndicator();
-                      })
-                ],
-              ),
-              Column(
-                children: [
-                  _getTitle('Planetas'),
-                  FutureBuilder<List<Planet>>(
-                      future: planetList,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return _planetList(snapshot.data!);
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        return const CircularProgressIndicator();
-                      })
-                ],
-              ),
-            ],
-          ),
-
-*/
