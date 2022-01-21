@@ -5,8 +5,8 @@ class LocationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Card(
+      child: Text('Lugares')
     );
   }
 }

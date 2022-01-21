@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ud0505_bottom_navigation_bar/models/people_response.dart';
+import 'package:ud0505_bottom_navigation_bar/pages/episodes_page.dart';
+import 'package:ud0505_bottom_navigation_bar/pages/locations_page.dart';
 import 'package:ud0505_bottom_navigation_bar/pages/people_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-enum Section { characters, locations, episodes }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -56,10 +56,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Future<List<People>> charactersList;
 
-  Section sec = Section.characters;
-
-
-   ////////INIT//////////
+  ////////INIT//////////
   @override
   void initState() {
     charactersList = fetchPeople();
@@ -90,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,17 +129,20 @@ class _MyHomePageState extends State<MyHomePage> {
     if (response.statusCode == 200) {
       return PeopleResponse.fromJson(jsonDecode(response.body)).results;
     } else {
-      throw Exception('No se cargó ningún personaje');
+      throw Exception("Oh geez Rick... there's nobody here.");
     }
   }
 
   Widget _changePage() {
-    /*
-    switch(sec){
-      case Section.characters:
-      return PeoplePage();
+    switch (_selectedIndex) {
+      case 0:
+        return PeoplePage(peopleListFuture: charactersList);
+      case 1:
+        return LocationsPage();
+      case 2:
+        return EpisodesPage();
     }
-*/
+
     return PeoplePage();
   }
 }
