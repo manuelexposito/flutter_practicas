@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'Rick & Morty'),
       initialRoute: '/',
@@ -67,7 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          backgroundColor: Colors.black,
+          title: Image.asset('assets/images/rick_and_morty.png', width: 150),
         ),
         body: Stack(
           children: [
