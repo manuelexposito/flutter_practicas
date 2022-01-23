@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:ud0505_bottom_navigation_bar/models/episodes_response.dart';
 import 'package:ud0505_bottom_navigation_bar/models/people_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:ud0505_bottom_navigation_bar/styles/styles.dart';
 
 class PeoplePage extends StatelessWidget {
   const PeoplePage({Key? key}) : super(key: key);
-
-  //static late Future<List<People>> peopleListFetched;
-  //final List<People> peopleListFetched;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +18,11 @@ class PeoplePage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         });
   }
 
+  
   Future<List<People>> fetchPeople() async {
     final response =
         await http.get(Uri.parse('https://rickandmortyapi.com/api/character/'));
@@ -34,6 +33,39 @@ class PeoplePage extends StatelessWidget {
       throw Exception("Oh geez Rick... there's nobody here.");
     }
   }
+
+
+/////////////// ↓↓↓↓↓↓↓↓↓ GET CHARACTER FIRST EPISODE ↓↓↓↓↓↓↓↓ //////////
+  Future<Episode> fetchFirstEpisode(People person) async {
+    final response = await http.get(Uri.parse(person.episode.first));
+
+    if (response.statusCode == 200) {
+      return Episode.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(" * Burrp * Damn Mor'y, you messed up this data too.");
+    }
+  }
+
+  Widget getFirstEpisode(People person, TextStyle nameStyle) {
+    return FutureBuilder<Episode>(
+        future: fetchFirstEpisode(person),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return getEpisodeName(snapshot.data!, nameStyle);
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const Text("Wait...");
+        });
+  }
+
+
+  Text getEpisodeName(Episode episode, TextStyle style) {
+    return Text(episode.name, style: style, overflow: TextOverflow.ellipsis);
+  }
+  ////////////	↑↑↑↑↑↑↑ GET CHARACTER FIRST EPISODE	↑↑↑↑↑↑↑↑ ////////
+
+
 
   Widget peopleList(List<People> peopleList) {
     return Container(
@@ -66,35 +98,51 @@ class PeoplePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 230,
+                    SizedBox(
+                      width: StylesApp.infoWidth,
                       child: Text(
                         person.name,
                         style: StylesApp.nameTitle,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    colorStatus(person.status),
-                    RichText(
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: person.status, style: StylesApp.subTitle),
-                          const TextSpan(
-                              text: ' - ', style: StylesApp.subTitle),
-                          TextSpan(
-                              text: person.species, style: StylesApp.subTitle)
+                    SizedBox(
+                      width: StylesApp.infoWidth,
+                      child: Row(
+                        children: [
+                          colorStatus(person.status),
+                          Text(
+                            '  ${person.status} - ${person.species}',
+                            style: StylesApp.subTitle,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                          )
                         ],
                       ),
                     ),
-                    const Text('Last known location: ', style: StylesApp.infoTitle),
-                    Text(person.location.name, style: StylesApp.secondaryInfo,),
-                    const Text('First seen in:', style: StylesApp.infoTitle,),
-                    //falta el capitulo, que necesita sacarlo de una petición
-                    //Text(person.origin.name, style: StylesApp.secondaryInfo)
-
+                    Container(
+                      margin: EdgeInsets.only(top: 5.0),
+                      width: StylesApp.infoWidth,
+                      child: const Text('Last known location: ',
+                          style: StylesApp.infoTitle),
+                    ),
+                    SizedBox(
+                      width: StylesApp.infoWidth,
+                      child: Text(
+                        person.location.name,
+                        style: StylesApp.secondaryInfo,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: StylesApp.infoWidth,
+                      child: Text(
+                        'First seen in:',
+                        style: StylesApp.infoTitle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: StylesApp.infoWidth,
+                        child: getFirstEpisode(person, StylesApp.secondaryInfo))
                   ]),
             )
           ],
@@ -103,15 +151,17 @@ class PeoplePage extends StatelessWidget {
     );
   }
 
-  Widget colorStatus(String status){
-    if(status.contains('Alive')){
-      return Icon(Icons.circle, color: Colors.green);
-    } else if(status.contains('Dead')){
-      return Icon(Icons.circle, color: Colors.red);
-    } else{
-      return Icon(Icons.circle, color: Colors.orange);
+  //↓↓↓↓↓ Para sacar el color de estado de personaje ↓↓↓↓↓
+  Widget colorStatus(String status) {
+    if (status.contains('Alive')) {
+      return const Icon(Icons.circle,
+          size: StylesApp.iconWidth, color: Colors.green);
+    } else if (status.contains('Dead')) {
+      return const Icon(Icons.circle,
+          size: StylesApp.iconWidth, color: Colors.red);
+    } else {
+      return const Icon(Icons.circle,
+          size: StylesApp.iconWidth, color: Colors.orange);
     }
   }
-
-
 }

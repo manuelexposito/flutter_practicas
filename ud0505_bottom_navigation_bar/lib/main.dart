@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.black,
           title: Image.asset('assets/images/rick_and_morty.png', width: 150),
         ),
+        backgroundColor: Colors.grey[900],
         body: Stack(
           children: [
             //TODO: Buscar imagen
@@ -93,7 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue[800],
+          selectedItemColor: Color(0xFF11b0c8),
+          backgroundColor: Colors.black,
+          unselectedItemColor: Colors.grey[700],
           onTap: _onItemTapped,
         ));
   }
