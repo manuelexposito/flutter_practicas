@@ -60,7 +60,8 @@ class EpisodesPage extends StatelessWidget {
               children: [
                 SizedBox(
                     width: StylesApp.infoWidth,
-                    child: Text(episode.name, style: StylesApp.nameTitle)),
+                    child: Text(episode.name, style: StylesApp.nameTitle,
+                    overflow: TextOverflow.ellipsis,)),
                 Container(
                     margin: EdgeInsets.only(top: 10.0),
                     width: StylesApp.infoWidth,
@@ -76,12 +77,13 @@ class EpisodesPage extends StatelessWidget {
                 ),
                 const SizedBox(
                     width: StylesApp.infoWidth,
-                    child: const Text('Appearances: ',
-                        style: StylesApp.infoTitle)),
+                    child: Text('Appearances: ',
+                        style: StylesApp.infoTitle,)),
                 SizedBox(
                     width: StylesApp.infoWidth,
                     child: Text(episode.characters.length.toString(),
-                        style: StylesApp.secondaryInfo)),
+                        style: StylesApp.secondaryInfo,
+                        overflow: TextOverflow.ellipsis,)),
               ],
             ),
           ),

@@ -84,7 +84,7 @@ class PeoplePage extends StatelessWidget {
       height: 135,
       child: Card(
         clipBehavior: Clip.antiAlias,
-        color: Color(0xFF3d3e43),
+        color: const Color(0xFF3d3e43),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: Row(
