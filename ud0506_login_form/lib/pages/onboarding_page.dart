@@ -8,7 +8,7 @@ class OnBoardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: StyleApp.bgWhite,
       body: Container(
         //alignment: Alignment.center,
         padding: EdgeInsets.all(15.0),
@@ -27,7 +27,7 @@ class OnBoardingPage extends StatelessWidget {
                   child: Image.asset('assets/images/portada.png',
                       fit: BoxFit.cover),
                 )),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 80.0),
               child: Text(
                 'Discover your Dream job Here',

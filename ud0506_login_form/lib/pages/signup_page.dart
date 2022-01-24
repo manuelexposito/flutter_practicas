@@ -6,7 +6,8 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Este es pa registrarse'),
+      color: Colors.white,
+      child: Text('Aquí irá el registro'),
     );
   }
 }
