@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Styles{
 
@@ -12,5 +13,9 @@ class Styles{
   static const TextStyle categoryTitle = TextStyle(fontSize: 20, fontWeight: FontWeight.w700);
 
   static const TextStyle movieTitle = TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700);
+
+
+  static const Color purple = Color(0xFF4d4efd);
+  static const Color grey = Color(0xFFd4d2d2);
 
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:searchfield/searchfield.dart';
 import 'package:ud0506_popcorn_home_page/models/movie_response.dart';
 import 'package:ud0506_popcorn_home_page/styles/styles.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,8 @@ const String API_KEY = '7dc7796c134309232ef44a970cf4df72';
 const String GET_POPULAR_MOVIES_URL =
     'https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=es-ES&page=1';
 
-const String  IMAGE_URL = 'https://image.tmdb.org/t/p/w200';
+const String IMAGE_URL = 'https://image.tmdb.org/t/p/w200';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -22,6 +24,10 @@ class _HomePageState extends State<HomePage> {
   late Future<List<Movie>> movieList;
 
   int _selectedIndex = 0;
+
+  final _formKey = GlobalKey<FormState>();
+
+  late List<String> movieNames;
 
   @override
   void setState(VoidCallback fn) {
@@ -53,10 +59,14 @@ class _HomePageState extends State<HomePage> {
                   maxRadius: 15.0,
                 ),
                 //NOMBRE
-                Text(
-                  'Nombre y Apellidos',
-                  style: Styles.username,
+                Container(
+                  margin: EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    'Nombre y Apellidos',
+                    style: Styles.username,
+                  ),
                 )
+                //ICONO CAST_OUTLINED
                 //BOTON
               ],
             ),
@@ -70,13 +80,45 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           //BUSCADOR
-          Padding(
-            padding: const EdgeInsets.all(Styles.homePadding),
-            child: Container(
-              padding: EdgeInsets.all(10.0),
-              color: Colors.grey,
-              child: Text('Aquí estará el buscador'),
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(Styles.homePadding),
+                child: Container(
+                  width: 250.0,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(90.0), color: Styles.grey),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.5),
+                  child: Form(
+                    key: _formKey,
+                    child: SearchField(
+                      //TODO: Cargar aquí la lista de titulos de peliculas
+                      suggestions: ["Genero 1"],
+                      hint: 'Search',
+                      searchStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black.withOpacity(0.8),
+                      ),
+
+                      searchInputDecoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(30.0)),
+                      ),
+                      maxSuggestionsInViewPort: 6,
+                      itemHeight: 50,
+                      
+                      onTap: ((x) {}),
+                    ),
+                  ),
+                ),
+              ),
+              Ink(decoration: const ShapeDecoration(shape: CircleBorder(), color: Styles.purple),
+                child: IconButton(onPressed: (){}, icon: Icon(Icons.filter_alt), color: Colors.white))
+            ],
           ),
           //NEWEST MOVIES
           Padding(
@@ -112,8 +154,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF4d4efd),
-        unselectedItemColor: Color(0xFFdfe1ed),
+        selectedItemColor: Styles.purple,
+        unselectedItemColor: Styles.grey,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -172,14 +214,22 @@ class _HomePageState extends State<HomePage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: Image.network('${IMAGE_URL}${movie.posterPath}', width: 100,)),
+              child: Image.network(
+                '${IMAGE_URL}${movie.posterPath}',
+                width: 100,
+              )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(movie.title, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start, style: Styles.movieTitle,)),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      movie.title,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      style: Styles.movieTitle,
+                    )),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
