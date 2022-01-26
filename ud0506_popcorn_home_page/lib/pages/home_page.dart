@@ -65,9 +65,19 @@ class _HomePageState extends State<HomePage> {
                     'Nombre y Apellidos',
                     style: Styles.username,
                   ),
-                )
+                ),
                 //ICONO CAST_OUTLINED
                 //BOTON
+                Container(
+                  margin: EdgeInsets.only(left: 115.0),
+                  child: Ink(
+                    decoration: const ShapeDecoration(
+                        shape: CircleBorder(), color: Styles.grey),
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.cast_outlined),
+                        color: Styles.purple)),
+                )
               ],
             ),
           ),
@@ -86,8 +96,11 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(Styles.homePadding),
                 child: Container(
                   width: 250.0,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(90.0), color: Styles.grey),
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(90.0),
+                      color: Styles.grey),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.5),
                   child: Form(
                     key: _formKey,
                     child: SearchField(
@@ -110,14 +123,19 @@ class _HomePageState extends State<HomePage> {
                       ),
                       maxSuggestionsInViewPort: 6,
                       itemHeight: 50,
-                      
+
                       onTap: ((x) {}),
                     ),
                   ),
                 ),
               ),
-              Ink(decoration: const ShapeDecoration(shape: CircleBorder(), color: Styles.purple),
-                child: IconButton(onPressed: (){}, icon: Icon(Icons.filter_alt), color: Colors.white))
+              Ink(
+                  decoration: const ShapeDecoration(
+                      shape: CircleBorder(), color: Styles.purple),
+                  child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.filter_alt),
+                      color: Colors.white))
             ],
           ),
           //NEWEST MOVIES

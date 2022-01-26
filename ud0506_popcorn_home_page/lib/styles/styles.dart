@@ -16,6 +16,6 @@ class Styles{
 
 
   static const Color purple = Color(0xFF4d4efd);
-  static const Color grey = Color(0xFFd4d2d2);
+  static const Color grey = Color(0xFFf0ebeb);
 
 }
