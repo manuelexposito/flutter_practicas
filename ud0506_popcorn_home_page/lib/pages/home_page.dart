@@ -10,6 +10,7 @@ const String API_KEY = '7dc7796c134309232ef44a970cf4df72';
 const String GET_POPULAR_MOVIES_URL =
     'https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=es-ES&page=1';
 
+const String  IMAGE_URL = 'https://image.tmdb.org/t/p/w200';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -38,13 +39,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      body: Column(
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(Styles.homePadding),
+            child: Row(
               children: [
                 //FOTO
                 CircleAvatar(
@@ -59,31 +60,37 @@ class _HomePageState extends State<HomePage> {
                 //BOTON
               ],
             ),
-            //MOVIE, SERIES, TV SHOWS...
-            Padding(
-              padding: const EdgeInsets.only(right: 180.0),
-              child: Text(
-                'Movie, Series, TV Shows...',
-                style: Styles.textTitle,
-              ),
+          ),
+          //MOVIE, SERIES, TV SHOWS...
+          const Padding(
+            padding: EdgeInsets.only(right: 180.0, left: Styles.homePadding),
+            child: Text(
+              'Movie, Series, TV Shows...',
+              style: Styles.textTitle,
             ),
-            //BUSCADOR
-            Container(
+          ),
+          //BUSCADOR
+          Padding(
+            padding: const EdgeInsets.all(Styles.homePadding),
+            child: Container(
               padding: EdgeInsets.all(10.0),
               color: Colors.grey,
               child: Text('Aquí estará el buscador'),
             ),
-            //NEWEST MOVIES
-            const Text(
+          ),
+          //NEWEST MOVIES
+          Padding(
+            padding: const EdgeInsets.all(Styles.homePadding),
+            child: const Text(
               'Newest',
               style: Styles.categoryTitle,
             ),
-            //TODO: Comprobar fallo con este método
-            //_getMovieList()
+          ),
+          //TODO: Comprobar fallo con este método
+          _getMovieList()
 
-            //POPULAR MOVIES
-          ],
-        ),
+          //POPULAR MOVIES
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -107,7 +114,9 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFF4d4efd),
         unselectedItemColor: Color(0xFFdfe1ed),
+        type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
+        showUnselectedLabels: false,
         onTap: _onItemTapped,
       ),
     );
@@ -137,35 +146,56 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget popularMoviesList(List<Movie> popularList) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: popularList.length,
-      itemBuilder: (context, index) {
-        return _popularMovieCard(popularList.elementAt(index)); //la tarjeta
-      },
+    return Expanded(
+      child: SizedBox(
+        //height: 20,
+        height: 150,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: popularList.length,
+          itemBuilder: (context, index) {
+            return _popularMovieCard(popularList.elementAt(index)); //la tarjeta
+          },
+        ),
+      ),
     );
   }
 
   Widget _popularMovieCard(Movie movie) {
-    return Column(
-      children: [
-        Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: Styles.marginBetweenMovies),
+      width: 100,
+      child: Column(
+        children: [
+          Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Image.network('${IMAGE_URL}${movie.posterPath}', width: 100,)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(movie.title, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start, style: Styles.movieTitle,)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.solidStar,
+                      color: Colors.yellow[700],
+                      size: 12.0,
+                    ),
+                    Text(' ${movie.voteAverage.toString()}')
+                  ],
+                ),
+              ],
             ),
-            child: Image.network(movie.posterPath)),
-        Text(movie.title),
-        Row(
-          children: [
-            FaIcon(
-              FontAwesomeIcons.star,
-              color: Colors.yellow,
-            ),
-            Text(movie.popularity.toString())
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
