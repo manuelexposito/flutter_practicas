@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flight_seat_selection/pages/passenger_info_page.dart';
 import 'package:flutter_flight_seat_selection/pages/seat_selection_page.dart';
 
 void main() {
@@ -16,7 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SeatSelectionPage()
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SeatSelectionPage(),
+        '/passenger-info': (context) => const PassengerInfoPage(),
+      },
     );
   }
 }
